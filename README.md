@@ -1,132 +1,140 @@
-🚀 Major Project 7 (FINAL):
-Secure File Transfer using Zenity & SCP (AWS EC2)
-________________________________________
+🚀 FINAL PROFESSIONAL README.md
+# 🚀 Secure File Transfer System (Zenity + SCP + AWS EC2)
 
-1. Introduction
-In modern computing environments, secure file transfer is a critical requirement, especially when working with remote systems and cloud infrastructure. This project demonstrates a secure and automated file transfer system using Zenity (GUI) and SCP (Secure Copy Protocol).
-________________________________________
-2. Objective
+![Banner](screenshots/slide-01.jpg)
 
-•	To develop a GUI-based secure file transfer system 
-•	To implement file transfer using SCP over SSH 
-•	To automate remote file transfer using shell scripting 
-•	To understand cloud-based communication using AWS EC2
+---
+
+## 📌 Overview
+
+A GUI-based secure file transfer system that allows users to send files from a **Local Linux VM** to an **AWS EC2 instance** using **SCP over SSH**.
+
+This project simplifies complex terminal commands by providing a **user-friendly Zenity interface**.
+
+---
+
+## ✨ Features
+
+- 🔐 Secure file transfer using SCP (SSH encryption)
+- 🖥️ GUI-based interface using Zenity
+- 🔑 Key-based authentication (PEM file)
+- 📊 Real-time progress bar
+- ⚠️ Error handling and validation
+
+---
+
+## 🏗️ Architecture
+
+![Architecture](screenshots/slide-04.jpg)
 
 
-🔧 3. Prerequisites
-On Local VM:
-Command: sudo apt update
+Local VM ──▶ SCP (SSH) ──▶ AWS EC2
+
+
+---
+
+## 🔄 Workflow
+
+![Workflow](screenshots/slide-05.jpg)
+
+1️⃣ Select file via GUI  
+2️⃣ Enter EC2 Public IP  
+3️⃣ Enter username  
+4️⃣ Select PEM key  
+5️⃣ Transfer file securely  
+6️⃣ Verify on EC2  
+
+---
+
+## ⚙️ Tech Stack
+
+| Technology | Usage |
+|----------|------|
+| Linux (Ubuntu) | Environment |
+| AWS EC2 | Cloud server |
+| Bash | Scripting |
+| SCP | File transfer |
+| SSH | Secure communication |
+| Zenity | GUI |
+
+---
+
+## 📸 Screenshots
+
+### 🖥️ GUI Interface
+![GUI](screenshots/slide-01.jpg)
+
+### 🔐 Secure Transfer
+![Transfer](screenshots/slide-03.jpg)
+
+### ☁️ AWS EC2 Setup
+![AWS](screenshots/slide-04.jpg)
+
+### ✅ Output
+![Output](screenshots/slide-08.jpg)
+
+---
+
+You’re very close — your README formatting is just **broken because code blocks aren’t closed properly** ❌
+I’ll fix it cleanly so it renders perfectly on GitHub ✅
+
+---
+
+# ✅ **Corrected README Section (Copy This)**
+
+## 🛠️ Installation
+````md
+
+
+```bash
+sudo apt update
 sudo apt install zenity openssh-client -y
- 
-________________________________________
- 
-💻 4. Final Script (Production Version)
-Create file:
-Command : nano zenity_scp_final.sh
- 
+````
 
-Paste this 👇
-#!/bin/bash
+---
 
-TITLE="Secure File Transfer (Zenity + SCP + AWS)"
+## ▶️ Usage
 
-# Step 1: Select File
-FILE=$(zenity --file-selection --title="Select File to Transfer")
+```bash
+chmod +x zenity_scp_final.sh
+./zenity_scp_final.sh
+```
 
-if [ -z "$FILE" ]; then
-    zenity --error --text="No file selected!"
-    exit 1
-fi
+---
 
-# Step 2: Enter EC2 Public IP
-IP=$(zenity --entry --title="$TITLE" --text="Enter EC2 Public IP")
+## 🔐 SCP Command
 
-if [ -z "$IP" ]; then
-    zenity --error --text="IP Address required!"
-    exit 1
-fi
+```bash
+scp -i key.pem file.txt ubuntu@<EC2-IP>:/home/ubuntu/
+```
 
-# Step 3: Enter Username (default: ubuntu)
-USER=$(zenity --entry --title="$TITLE" --text="Enter Username (e.g. ubuntu)" --entry-text="ubuntu")
+---
 
-if [ -z "$USER" ]; then
-    zenity --error --text="Username required!"
-    exit 1
-fi
+## 📄 Documentation
 
-# Step 4: Select PEM Key
-KEY=$(zenity --file-selection --title="Select PEM Key File")
+📥 [Download Full Project Report](docs/Major_Project_Report.pdf)
 
-if [ -z "$KEY" ]; then
-    zenity --error --text="PEM key required!"
-    exit 1
-fi
+---
 
-# Fix permission automatically
-chmod 400 "$KEY"
-# Step 5: Destination Path
-DEST=$(zenity --entry --title="$TITLE" --text="Enter Destination Path" --entry-text="/home/ubuntu/")
+## 🧠 Learning Outcomes
 
-if [ -z "$DEST" ]; then
-    zenity --error --text="Destination required!"
-    exit 1
-fi
+* ☁️ Cloud integration using AWS EC2
+* 🔐 Secure file transfer using SCP
+* 🧩 Shell scripting automation
+* 🖥️ GUI development using Zenity
+* 🚀 Real-world DevOps workflow
 
-# Step 6: Transfer with Progress
-(
-echo "10"; echo "# Connecting to EC2..."
-sleep 1
+---
 
-echo "40"; echo "# Uploading file..."
+## 👨‍💻 Author
 
-scp -i "$KEY" -o StrictHostKeyChecking=no "$FILE" "$USER@$IP:$DEST"
+**Onkar Kakde**
+💼 DevOps & Cloud Enthusiast
 
-if [ $? -eq 0 ]; then
-    echo "100"; echo "# Transfer Completed!"
-else
-    echo "100"; echo "# Transfer Failed!"
-    exit 1
-fi
+---
 
-) | zenity --progress \
---title="$TITLE" \
---percentage=0 \
---auto-close
+## ⭐ Support
 
-# Final Status
-if [ $? -eq 0 ]; then
-    zenity --info --text="✅ File transferred successfully to EC2!"
-else
-    zenity --error --text="❌ Transfer failed!"
-fi
- 
+If you like this project, give it a ⭐ on GitHub!
 
-🔐 5. Make Executable
-Command : chmod +x zenity_scp_final.sh
-
- 
-________________________________________
-▶️ 6. Run Project
-Command : ./zenity_scp_final.sh
- 
-________________________________________
- 7. Workflow (Write in Report)
-1.	User selects file using Zenity GUI 
- 
- 
-2.	User enters EC2 Public IP 
- 
-
-3.	User enters username (ubuntu) 
- 
-
-4.	User selects PEM key file 
- 
-
-5.	Success/error message displayed 
- 
-________________________________________
-Aws console : 
-
-Architecture for project
- 
+````
